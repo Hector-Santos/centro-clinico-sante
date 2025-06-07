@@ -1,0 +1,5 @@
+{
+  "watch": ["public", "src"],
+  "ext": "js,jsx,json,html,css",
+  "exec": "npm run emulator"
+}
