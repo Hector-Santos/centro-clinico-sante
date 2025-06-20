@@ -7,6 +7,7 @@ import { DoctorModule } from '../doctor/doctor.module'; // Importando o módulo 
 import { PatientModule } from 'src/patient/patient.module';
 import { WeeklyScheduleModule } from 'src/weekly-schedule/weekly-schedule.module';
 import { ScheduleExceptionModule } from 'src/schedule-exception/schedule-exception.module';
+import { AppointmentModule } from 'src/appointments/appointment.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ScheduleExceptionModule } from 'src/schedule-exception/schedule-excepti
     PatientModule,
     WeeklyScheduleModule, // Importando o módulo de agendamento semanal
     ScheduleExceptionModule, // Importando o módulo de exceções de agendamento
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
