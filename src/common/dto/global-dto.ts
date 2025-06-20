@@ -61,7 +61,7 @@ export class WeeklyScheduleDto {
 
 export class ScheduleDto {
   @IsString()
-  id: string;
+  doctorId: string;
 
   @ValidateNested()
   @Type(() => WeeklyScheduleDto)
@@ -95,20 +95,6 @@ export class ScheduleExceptionDto {
   @IsInt()
   @Min(1)
   durationInWeeks?: number;
-}
-
-export class DoctorDto {
-  @IsString()
-  id: string;
-
-  @IsString()
-  name: string;
-
-  @IsString()
-  phone: string;
-
-  @IsString()
-  scheduleId: string;
 }
 
 export class PatientDto {

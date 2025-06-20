@@ -6,23 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.DoctorModule = void 0;
 const common_1 = require("@nestjs/common");
-const config_1 = require("@nestjs/config");
-const test_module_1 = require("./test/test.module");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
-let AppModule = class AppModule {
+const doctor_controller_1 = require("./doctor.controller");
+const doctor_service_1 = require("./doctor.service");
+let DoctorModule = class DoctorModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.DoctorModule = DoctorModule;
+exports.DoctorModule = DoctorModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            config_1.ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
-            test_module_1.TestModule,
-        ],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        controllers: [doctor_controller_1.DoctorController],
+        providers: [doctor_service_1.DoctorService],
+        exports: [doctor_service_1.DoctorService],
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], DoctorModule);
+//# sourceMappingURL=doctor.module.js.map

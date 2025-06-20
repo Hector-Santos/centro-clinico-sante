@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createNestServer = createNestServer;
 const core_1 = require("@nestjs/core");
-const app_module_1 = require("./app.module");
 const platform_express_1 = require("@nestjs/platform-express");
 const common_1 = require("@nestjs/common");
 const class_validator_1 = require("class-validator");
+const app_module_1 = require("./app/app.module");
 async function createNestServer(expressInstance, forceListen = false) {
     if (!expressInstance && !forceListen) {
         console.error('[ERRO GRAVE] ExpressInstance ausente e listen não forçado. Evitando execução.');
