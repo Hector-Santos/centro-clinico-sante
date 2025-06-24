@@ -1,21 +1,11 @@
 import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app/app.module';
 import { ExpressAdapter } from '@nestjs/platform-express';
+import { Express } from 'express';
 import { ValidationPipe } from '@nestjs/common';
 import { useContainer } from 'class-validator';
-import { Express } from 'express-serve-static-core';
-import { AppModule } from './app/app.module';
 
-export async function createNestServer(
-  expressInstance?: Express,
-  forceListen = false,
-) {
-  if (!expressInstance && !forceListen) {
-    console.error(
-      '[ERRO GRAVE] ExpressInstance ausente e listen não forçado. Evitando execução.',
-    );
-    process.exit(1);
-  }
-
+export async function createNestServer(expressInstance?: Express) {
   const adapter = expressInstance
     ? new ExpressAdapter(expressInstance)
     : undefined;
@@ -26,7 +16,7 @@ export async function createNestServer(
 
   app.enableCors({
     origin: (origin, callback) => {
-      if (!origin || origin === 'http://teste-back-clinica-sante') {
+      if (!origin || origin === 'https://teste-back-clinica-sante') {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
@@ -47,14 +37,6 @@ export async function createNestServer(
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   await app.init();
-
-  if (forceListen) {
-    const port = process.env.PORT || 3333;
-    console.log(`[DEBUG] Iniciando app.listen(${port})`);
-    await app.listen(port);
-  } else {
-    console.log('[DEBUG] App inicializado sem listen');
-  }
 
   return app;
 }

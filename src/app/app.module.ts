@@ -8,6 +8,7 @@ import { PatientModule } from 'src/patient/patient.module';
 import { WeeklyScheduleModule } from 'src/weekly-schedule/weekly-schedule.module';
 import { ScheduleExceptionModule } from 'src/schedule-exception/schedule-exception.module';
 import { AppointmentModule } from 'src/appointments/appointment.module';
+import { InvoiceModule } from 'src/invoice/invoice.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AppointmentModule } from 'src/appointments/appointment.module';
     WeeklyScheduleModule, // Importando o módulo de agendamento semanal
     ScheduleExceptionModule, // Importando o módulo de exceções de agendamento
     AppointmentModule,
+    InvoiceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

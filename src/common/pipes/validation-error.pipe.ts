@@ -9,12 +9,12 @@ import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import * as ErrorReference from '../references/error-reference';
 
-// Build fast lookup index
+// Build fast lookup index using lowercase validator names
 const ValidationErrorIndex: Record<string, { code: string; message: string }> =
   {};
 
 Object.values(ErrorReference).forEach((error: any) => {
-  const key = `${error.dto}.${error.field}.${error.validator}`;
+  const key = `${error.dto}.${error.field}.${error.validator.toLowerCase()}`;
   ValidationErrorIndex[key] = { code: error.code, message: error.message };
 });
 
@@ -33,10 +33,13 @@ export class CustomValidationPipe implements PipeTransform {
     if (!error) return value;
 
     const field = error.property;
-    const validator = Object.keys(error.constraints || {})[0];
+    const validator = Object.keys(error.constraints || {})[0]?.toLowerCase();
     const fallback = error.constraints?.[validator];
     const key = `${metatype.name}.${field}.${validator}`;
     const match = ValidationErrorIndex[key];
+
+    console.log('Validation key:', key);
+    console.log('Match found:', match);
 
     throw new BadRequestException(
       match ?? { code: 'UNMAPPED_VALIDATION_ERROR', message: fallback },

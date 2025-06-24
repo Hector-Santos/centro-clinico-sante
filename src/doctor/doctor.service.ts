@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { db } from 'firebase.admin';
 import { CreateDoctorDto, DoctorDto, UpdateDoctorDto } from './dto/doctor-dto';
+import { db } from 'firebase.admin';
 
 @Injectable()
 export class DoctorService {

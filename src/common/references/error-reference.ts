@@ -175,12 +175,20 @@ export const INVALID_APPOINTMENT_PRICE = {
   message: 'Price must be a valid number.',
 };
 
+export const INVALID_INVOICE_ID_ISNOTEMPTY = {
+  code: 'INVALID_INVOICE_ID_ISNOTEMPTY',
+  dto: 'InvoiceDto',
+  field: 'id',
+  validator: 'IsNotEmpty',
+  message: 'Id is required.',
+};
+
 export const INVALID_INVOICE_ID = {
   code: 'INVALID_INVOICE_ID',
   dto: 'InvoiceDto',
   field: 'id',
   validator: 'IsString',
-  message: 'Id must be a string.',
+  message: 'Invoice Id must be a string.',
 };
 
 export const INVALID_INVOICE_PATIENTID = {
@@ -195,7 +203,7 @@ export const INVALID_INVOICE_REFERENCEMONTH = {
   code: 'INVALID_INVOICE_REFERENCEMONTH',
   dto: 'InvoiceDto',
   field: 'referenceMonth',
-  validator: 'Matches',
+  validator: 'matches',
   message: 'Reference month must follow YYYY-MM format.',
 };
 

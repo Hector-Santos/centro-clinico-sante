@@ -1,0 +1,13 @@
+node_modules/
+src/
+*.spec.ts
+*.test.ts
+local.ts
+coverage/
+dist/
+lib/
+build/
+.DS_Store
+*.log
+.env
+.eslintcache
