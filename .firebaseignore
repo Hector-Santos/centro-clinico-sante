@@ -11,3 +11,4 @@ build/
 *.log
 .env
 .eslintcache
+src/common/middlewares/logger-middleware.ts

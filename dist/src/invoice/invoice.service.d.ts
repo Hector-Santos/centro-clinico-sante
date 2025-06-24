@@ -1,4 +1,4 @@
-import { InvoiceDto } from './dto/invoice.dto';
+import { InvoiceDto } from '../invoice/dto/invoice.dto';
 export declare class InvoiceService {
     private collection;
     create(dto: InvoiceDto): Promise<InvoiceDto>;

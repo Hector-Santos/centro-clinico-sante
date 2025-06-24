@@ -9,10 +9,8 @@ import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import * as ErrorReference from '../references/error-reference';
 
-// Build fast lookup index using lowercase validator names
 const ValidationErrorIndex: Record<string, { code: string; message: string }> =
   {};
-
 Object.values(ErrorReference).forEach((error: any) => {
   const key = `${error.dto}.${error.field}.${error.validator.toLowerCase()}`;
   ValidationErrorIndex[key] = { code: error.code, message: error.message };
@@ -24,30 +22,35 @@ export class CustomValidationPipe implements PipeTransform {
     if (!metatype || !this.toValidate(metatype)) return value;
 
     const object = plainToInstance(metatype, value);
-    const [error] = await validate(object, {
+    const errors = await validate(object, {
       whitelist: true,
       forbidNonWhitelisted: true,
-      stopAtFirstError: true,
+      stopAtFirstError: false,
     });
 
-    if (!error) return value;
+    if (errors.length === 0) return value;
 
-    const field = error.property;
-    const validator = Object.keys(error.constraints || {})[0]?.toLowerCase();
-    const fallback = error.constraints?.[validator];
-    const key = `${metatype.name}.${field}.${validator}`;
-    const match = ValidationErrorIndex[key];
+    const formattedErrors = [];
 
-    console.log('Validation key:', key);
-    console.log('Match found:', match);
+    for (const error of errors) {
+      const field = error.property;
+      const constraints = error.constraints || {};
 
-    throw new BadRequestException(
-      match ?? { code: 'UNMAPPED_VALIDATION_ERROR', message: fallback },
-    );
+      for (const validator of Object.keys(constraints)) {
+        const key = `${metatype.name}.${field}.${validator.toLowerCase()}`;
+        formattedErrors.push(
+          ValidationErrorIndex[key] ?? {
+            code: 'UNMAPPED_VALIDATION_ERROR',
+            message: constraints[validator],
+          },
+        );
+      }
+    }
+
+    throw new BadRequestException(formattedErrors);
   }
 
   private toValidate(metatype: unknown): boolean {
-    const primitives = [String, Boolean, Number, Array, Object] as unknown[];
-    return !primitives.includes(metatype);
+    return ![String, Boolean, Number, Array, Object].includes(metatype as any);
   }
 }

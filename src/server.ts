@@ -2,8 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { Express } from 'express';
-import { ValidationPipe } from '@nestjs/common';
 import { useContainer } from 'class-validator';
+import { CustomValidationPipe } from './common/pipes/validation-error.pipe';
 
 export async function createNestServer(expressInstance?: Express) {
   const adapter = expressInstance
@@ -26,13 +26,7 @@ export async function createNestServer(expressInstance?: Express) {
     credentials: true,
   });
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-      forbidNonWhitelisted: true,
-    }),
-  );
+  app.useGlobalPipes(new CustomValidationPipe());
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 

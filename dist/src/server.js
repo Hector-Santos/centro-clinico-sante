@@ -4,8 +4,8 @@ exports.createNestServer = createNestServer;
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app/app.module");
 const platform_express_1 = require("@nestjs/platform-express");
-const common_1 = require("@nestjs/common");
 const class_validator_1 = require("class-validator");
+const validation_error_pipe_1 = require("./common/pipes/validation-error.pipe");
 async function createNestServer(expressInstance) {
     const adapter = expressInstance
         ? new platform_express_1.ExpressAdapter(expressInstance)
@@ -24,11 +24,7 @@ async function createNestServer(expressInstance) {
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         credentials: true,
     });
-    app.useGlobalPipes(new common_1.ValidationPipe({
-        whitelist: true,
-        transform: true,
-        forbidNonWhitelisted: true,
-    }));
+    app.useGlobalPipes(new validation_error_pipe_1.CustomValidationPipe());
     (0, class_validator_1.useContainer)(app.select(app_module_1.AppModule), { fallbackOnErrors: true });
     await app.init();
     return app;

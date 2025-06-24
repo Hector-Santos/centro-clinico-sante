@@ -21,25 +21,29 @@ let CustomValidationPipe = class CustomValidationPipe {
         if (!metatype || !this.toValidate(metatype))
             return value;
         const object = (0, class_transformer_1.plainToInstance)(metatype, value);
-        const [error] = await (0, class_validator_1.validate)(object, {
+        const errors = await (0, class_validator_1.validate)(object, {
             whitelist: true,
             forbidNonWhitelisted: true,
-            stopAtFirstError: true,
+            stopAtFirstError: false,
         });
-        if (!error)
+        if (errors.length === 0)
             return value;
-        const field = error.property;
-        const validator = Object.keys(error.constraints || {})[0]?.toLowerCase();
-        const fallback = error.constraints?.[validator];
-        const key = `${metatype.name}.${field}.${validator}`;
-        const match = ValidationErrorIndex[key];
-        console.log('Validation key:', key);
-        console.log('Match found:', match);
-        throw new common_1.BadRequestException(match ?? { code: 'UNMAPPED_VALIDATION_ERROR', message: fallback });
+        const formattedErrors = [];
+        for (const error of errors) {
+            const field = error.property;
+            const constraints = error.constraints || {};
+            for (const validator of Object.keys(constraints)) {
+                const key = `${metatype.name}.${field}.${validator.toLowerCase()}`;
+                formattedErrors.push(ValidationErrorIndex[key] ?? {
+                    code: 'UNMAPPED_VALIDATION_ERROR',
+                    message: constraints[validator],
+                });
+            }
+        }
+        throw new common_1.BadRequestException(formattedErrors);
     }
     toValidate(metatype) {
-        const primitives = [String, Boolean, Number, Array, Object];
-        return !primitives.includes(metatype);
+        return ![String, Boolean, Number, Array, Object].includes(metatype);
     }
 };
 exports.CustomValidationPipe = CustomValidationPipe;

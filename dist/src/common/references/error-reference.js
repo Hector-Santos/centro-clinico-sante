@@ -188,7 +188,7 @@ exports.INVALID_INVOICE_STATUS = {
     dto: 'InvoiceDto',
     field: 'status',
     validator: 'IsEnum',
-    message: 'Status must be one of: pending, confirmed, cancelled, completed, or absence.',
+    message: 'Status must be one of: fuck you.',
 };
 exports.INVALID_INVOICE_TXID = {
     code: 'INVALID_INVOICE_TXID',
