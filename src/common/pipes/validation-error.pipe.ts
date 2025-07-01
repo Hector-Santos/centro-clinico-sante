@@ -46,7 +46,6 @@ export class CustomValidationPipe implements PipeTransform {
         );
       }
     }
-
     throw new BadRequestException(formattedErrors);
   }
 

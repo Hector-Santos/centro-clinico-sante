@@ -2,11 +2,11 @@ import {
   Controller,
   Post,
   Get,
-  Patch,
   Delete,
   Body,
   Param,
   NotFoundException,
+  Put,
 } from '@nestjs/common';
 import { CreateDoctorDto, DoctorDto, UpdateDoctorDto } from './dto/doctor-dto';
 import { DoctorService } from './doctor.service';
@@ -28,18 +28,19 @@ export class DoctorController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<DoctorDto> {
     const doctor = await this.doctorService.findOne(id);
-    if (!doctor) throw new NotFoundException('Doctor not found');
+    if (!doctor) {
+      throw new NotFoundException('Doctor not found');
+    }
     return doctor;
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() dto: UpdateDoctorDto,
-  ): Promise<DoctorDto> {
-    const updated = await this.doctorService.update(id, dto);
-    if (!updated) throw new NotFoundException('Doctor not found');
-    return updated;
+  ): Promise<void> {
+    const success = await this.doctorService.update(id, dto);
+    if (!success) throw new NotFoundException('Doctor not found');
   }
 
   @Delete(':id')

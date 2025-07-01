@@ -78,7 +78,7 @@ function formatStatusBlock(statusCode: number, messageText: string): string {
   }
 }
 
-export function devLoggerMiddleware(
+export function LoggerMiddleware(
   req: Request,
   res: Response,
   next: NextFunction,

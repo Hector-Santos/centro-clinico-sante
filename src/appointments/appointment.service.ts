@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Firestore } from 'firebase-admin/firestore';
 import { getFirestore } from 'firebase-admin/firestore';
 import {
@@ -26,22 +26,22 @@ export class AppointmentService {
 
   async findAll(): Promise<AppointmentDto[]> {
     const snapshot = await this.collection.get();
-    return snapshot.docs.map(doc => doc.data() as AppointmentDto);
+    return snapshot.docs.map((doc) => doc.data() as AppointmentDto);
   }
 
-  async findOne(id: string): Promise<AppointmentDto | null> {
+  async findOne(id: string): Promise<AppointmentDto> {
     const doc = await this.collection.doc(id).get();
-    return doc.exists ? (doc.data() as AppointmentDto) : null;
+    if (!doc.exists) {
+      throw new NotFoundException('Appointment not found');
+    }
+    return doc.data() as AppointmentDto;
   }
 
-  async update(id: string, dto: UpdateAppointmentDto): Promise<AppointmentDto> {
-    const updated = { id, ...dto };
-    await this.collection.doc(id).update(updated);
-    return updated;
+  async update(id: string, dto: UpdateAppointmentDto): Promise<void> {
+    await this.collection.doc(id).update({ ...dto });
   }
 
-  async remove(id: string): Promise<{ id: string }> {
+  async delete(id: string): Promise<void> {
     await this.collection.doc(id).delete();
-    return { id };
   }
 }

@@ -3,12 +3,13 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
 import { InvoiceService } from './invoice.service';
-import { InvoiceDto } from './dto/invoice.dto';
+import { InvoiceDto, UpdateInvoiceDto } from './dto/invoice.dto';
 
 @Controller('invoices')
 export class InvoiceController {
@@ -30,8 +31,15 @@ export class InvoiceController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() dto: Partial<InvoiceDto>) {
-    return await this.service.update(id, dto);
+  async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateInvoiceDto,
+  ): Promise<{ message: string }> {
+    const success = await this.service.update(id, dto);
+    if (!success) {
+      throw new NotFoundException('Invoice not found');
+    }
+    return { message: 'Invoice successfully updated' };
   }
 
   @Delete(':id')

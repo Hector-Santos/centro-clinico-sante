@@ -1,6 +1,7 @@
 import { IsString, IsEnum, IsDate, IsOptional, Matches } from 'class-validator';
 import { Type } from 'class-transformer';
 import { InvoiceMonthPattern } from 'src/common/references/regex-reference';
+import { OmitType, PartialType } from '@nestjs/mapped-types';
 
 export enum InvoiceStatus {
   Pending = 'pending',
@@ -40,3 +41,7 @@ export class InvoiceDto {
   @Type(() => Date)
   paidAt: Date | null;
 }
+
+export class CreateInvoiceDto extends OmitType(InvoiceDto, ['id']) {}
+
+export class UpdateInvoiceDto extends PartialType(CreateInvoiceDto) {}
