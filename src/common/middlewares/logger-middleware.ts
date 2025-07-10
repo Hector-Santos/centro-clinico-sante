@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
 import chalk from 'chalk';
+import { Request, Response, NextFunction } from 'express';
 
 const arrowOut = chalk.redBright('📤');
 const dim = chalk.gray;

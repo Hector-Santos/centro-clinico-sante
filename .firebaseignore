@@ -3,6 +3,7 @@ src/
 *.spec.ts
 *.test.ts
 local.ts
+test/
 coverage/
 dist/
 lib/
@@ -11,6 +12,6 @@ build/
 *.log
 .env
 .eslintcache
-test.ts
+/test
 src/common/middlewares/logger-middleware.ts
-filedump
+filedump/

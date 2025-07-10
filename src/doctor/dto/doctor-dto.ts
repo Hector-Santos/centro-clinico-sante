@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, Matches } from 'class-validator';
 import { OmitType, PartialType } from '@nestjs/mapped-types';
-import { WhatsAppNumberPattern } from 'src/common/references/regex-reference';
+import { WhatsAppNumberPattern } from '../../common/references/regex-reference';
 
 export class DoctorDto {
   @IsString()

@@ -1,6 +1,8 @@
 import { IsString, IsNotEmpty, Matches } from 'class-validator';
+
 import { OmitType, PartialType } from '@nestjs/mapped-types';
-import { WhatsAppNumberPattern } from 'src/common/references/regex-reference';
+
+import { WhatsAppNumberPattern } from '../../common/references/regex-reference';
 
 export class PatientDto {
   @IsString()
@@ -13,7 +15,7 @@ export class PatientDto {
 
   @IsString()
   @IsNotEmpty()
-  @Matches(WhatsAppNumberPattern)
+  //@Matches(WhatsAppNumberPattern)
   phone: string;
 
   @IsString()
@@ -21,6 +23,9 @@ export class PatientDto {
   doctorId: string;
 }
 
-export class CreatePatientDto extends OmitType(PatientDto, ['id']) {}
+export class CreatePatientDto extends OmitType(PatientDto, [
+  'id',
+ // 'doctorId',
+]) {}
 
 export class UpdatePatientDto extends PartialType(PatientDto) {}

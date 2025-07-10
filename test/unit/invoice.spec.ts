@@ -1,18 +1,12 @@
-import {
-  applyFirebaseMock,
-  mockSet,
-  mockCollection,
-} from 'test/mocks/firebase.mock';
-applyFirebaseMock(); // Must come first before any Firebase-using imports
-
-import { Test, TestingModule } from '@nestjs/testing';
-import { InvoiceService } from 'src/invoices/invoice.service';
-import { CreateInvoiceDto } from 'src/invoices/dto/invoice.dto';
+import { TestingModule, Test } from '@nestjs/testing';
+import { CreateInvoiceDto } from '../../src/invoice/dto/invoice.dto';
+import { InvoiceService } from '../../src/invoice/invoice.service';
 import {
   CreateInvoiceMock,
-  UpdateInvoiceMock,
   InvoiceMock,
-} from 'test/mocks/factories/invoice.factory';
+  UpdateInvoiceMock,
+} from '../mocks/factories/invoice.factory';
+import { mockCollection, mockSet } from '../mocks/firebase.mock';
 
 describe('InvoiceService', () => {
   let service: InvoiceService;

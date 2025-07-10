@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { AppointmentModule } from 'src/appointments/appointment.module';
+import { INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import { AppointmentModule } from '../../src/appointments/appointment.module';
 
 describe('AppointmentController (e2e)', () => {
   let app: INestApplication;

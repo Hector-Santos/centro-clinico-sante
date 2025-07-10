@@ -1,6 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
+import { INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 import { WeeklyScheduleModule } from '../../filedump/weekly-schedule/weekly-schedule.module';
 
 describe('WeeklyScheduleController (e2e)', () => {

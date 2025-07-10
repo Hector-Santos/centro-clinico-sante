@@ -8,8 +8,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { InvoiceService } from './invoice.service';
 import { InvoiceDto, UpdateInvoiceDto } from './dto/invoice.dto';
+import { InvoiceService } from './invoice.service';
 
 @Controller('invoices')
 export class InvoiceController {

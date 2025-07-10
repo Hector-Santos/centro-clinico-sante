@@ -1,18 +1,12 @@
-import {
-  applyFirebaseMock,
-  mockSet,
-  mockCollection,
-} from 'test/mocks/firebase.mock';
-applyFirebaseMock(); // Must come first before any Firebase-using imports
-
-import { Test, TestingModule } from '@nestjs/testing';
-import { PatientService } from 'src/patients/patient.service';
-import { CreatePatientDto } from 'src/patients/dto/patient.dto';
+import { TestingModule, Test } from '@nestjs/testing';
+import { CreatePatientDto } from '../../src/patient/dto/patient-dto';
+import { PatientService } from '../../src/patient/patient.service';
 import {
   CreatePatientMock,
-  UpdatePatientMock,
   PatientMock,
-} from 'test/mocks/factories/patient.factory';
+  UpdatePatientMock,
+} from '../mocks/factories/patient.factory';
+import { mockCollection, mockSet } from '../mocks/firebase.mock';
 
 describe('PatientService', () => {
   let service: PatientService;

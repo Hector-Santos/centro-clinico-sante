@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import { plainToInstance } from 'class-transformer';
+import { validate } from 'class-validator';
 import {
   ArgumentMetadata,
   BadRequestException,
   Injectable,
   PipeTransform,
 } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
-import { validate } from 'class-validator';
 import * as ErrorReference from '../references/error-reference';
 
 const ValidationErrorIndex: Record<string, { code: string; message: string }> =

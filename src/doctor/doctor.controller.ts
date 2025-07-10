@@ -5,19 +5,18 @@ import {
   Delete,
   Body,
   Param,
-  NotFoundException,
   Put,
 } from '@nestjs/common';
-import { CreateDoctorDto, DoctorDto, UpdateDoctorDto } from './dto/doctor-dto';
 import { DoctorService } from './doctor.service';
+import { CreateDoctorDto, DoctorDto, UpdateDoctorDto } from './dto/doctor-dto';
 
 @Controller('doctors')
 export class DoctorController {
   constructor(private readonly doctorService: DoctorService) {}
 
   @Post()
-  async create(@Body() dto: CreateDoctorDto): Promise<DoctorDto> {
-    return this.doctorService.create(dto);
+  async create(@Body() doctor: CreateDoctorDto): Promise<DoctorDto> {
+    return this.doctorService.create(doctor);
   }
 
   @Get()
@@ -27,26 +26,19 @@ export class DoctorController {
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<DoctorDto> {
-    const doctor = await this.doctorService.findOne(id);
-    if (!doctor) {
-      throw new NotFoundException('Doctor not found');
-    }
-    return doctor;
+    return await this.doctorService.findOne(id);
   }
 
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() dto: UpdateDoctorDto,
+    @Body() doctor: UpdateDoctorDto,
   ): Promise<void> {
-    const success = await this.doctorService.update(id, dto);
-    if (!success) throw new NotFoundException('Doctor not found');
+    await this.doctorService.update(id, doctor);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<{ message: string }> {
-    const success = await this.doctorService.remove(id);
-    if (!success) throw new NotFoundException('Doctor not found');
-    return { message: 'Doctor successfully deleted' };
+  async remove(@Param('id') id: string): Promise<void> {
+    await this.doctorService.delete(id);
   }
 }

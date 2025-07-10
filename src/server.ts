@@ -1,8 +1,8 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import { Express } from 'express';
 import { useContainer } from 'class-validator';
+import { Express } from 'express';
+import { NestFactory } from '@nestjs/core';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import { AppModule } from './app/app.module';
 import { CustomValidationPipe } from './common/pipes/validation-error.pipe';
 
 export async function createNestServer(expressInstance?: Express) {

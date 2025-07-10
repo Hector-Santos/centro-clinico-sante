@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { db } from 'firebase.admin';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { db } from '../../firebase.admin';
 import {
   CreatePatientDto,
   PatientDto,
@@ -10,15 +10,15 @@ import {
 export class PatientService {
   private collection = db.collection('patients');
 
-  async create(dto: CreatePatientDto): Promise<PatientDto> {
+  async create(patientData: CreatePatientDto): Promise<PatientDto> {
     const docRef = this.collection.doc();
     const id = docRef.id;
 
     const patient: PatientDto = {
       id,
-      name: dto.name,
-      phone: dto.phone,
-      doctorId: '', // Placeholder since CreatePatientDto does not include doctorId
+      name: patientData.name,
+      phone: patientData.phone,
+      doctorId: patientData.doctorId,
     };
 
     await docRef.set(patient);
@@ -30,33 +30,25 @@ export class PatientService {
     return snapshot.docs.map((doc) => doc.data() as PatientDto);
   }
 
-  async findOne(id: string): Promise<PatientDto | null> {
+  async findOne(id: string): Promise<PatientDto> {
     const doc = await this.collection.doc(id).get();
-    return doc.exists ? (doc.data() as PatientDto) : null;
+    if (!doc.exists) throw new NotFoundException('Patient not found');
+    return doc.data() as PatientDto;
   }
 
-  async update(id: string, dto: UpdatePatientDto): Promise<PatientDto | null> {
+  async update(id: string, patient: UpdatePatientDto): Promise<void> {
     const ref = this.collection.doc(id);
     const doc = await ref.get();
-    if (!doc.exists) return null;
 
-    const updatePayload: any = {};
-    if (dto.name !== undefined) updatePayload.name = dto.name;
-    if (dto.phone !== undefined) updatePayload.phone = dto.phone;
-    if (dto.doctorId !== undefined) updatePayload.doctorId = dto.doctorId;
+    if (!doc.exists) throw new NotFoundException('Patient not found');
 
-    await ref.update(updatePayload);
-
-    const updatedDoc = await ref.get();
-    return updatedDoc.data() as PatientDto;
+    await ref.update({ ...patient });
   }
 
-  async remove(id: string): Promise<boolean> {
+  async remove(id: string): Promise<void> {
     const ref = this.collection.doc(id);
     const doc = await ref.get();
-    if (!doc.exists) return false;
-
+    if (!doc.exists) throw new NotFoundException('Patient not found');
     await ref.delete();
-    return true;
   }
 }

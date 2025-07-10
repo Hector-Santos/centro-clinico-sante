@@ -18,8 +18,8 @@ export class AppointmentController {
   constructor(private readonly appointmentService: AppointmentService) {}
 
   @Post()
-  create(@Body() dto: CreateAppointmentDto) {
-    return this.appointmentService.create(dto);
+  create(@Body() appointment: CreateAppointmentDto) {
+    return this.appointmentService.create(appointment);
   }
 
   @Get()
@@ -33,8 +33,8 @@ export class AppointmentController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateAppointmentDto) {
-    return this.appointmentService.update(id, dto);
+  update(@Param('id') id: string, @Body() appointment: UpdateAppointmentDto) {
+    return this.appointmentService.update(id, appointment);
   }
 
   @Delete(':id')

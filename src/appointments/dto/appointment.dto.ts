@@ -1,7 +1,9 @@
-import { OmitType, PartialType } from '@nestjs/mapped-types';
 import { Type } from 'class-transformer';
 import { IsEnum, IsNumber, IsString } from 'class-validator';
-import { IsFutureDate } from 'src/common/validators/is-future-date.validator';
+
+import { OmitType, PartialType } from '@nestjs/mapped-types';
+
+import { IsFutureDate } from '../../common/validators/is-future-date.validator';
 
 export enum AppointmentStatus {
   Pending = 'pending',

@@ -1,5 +1,5 @@
+import express from 'express';
 import * as functions from 'firebase-functions';
-import * as express from 'express';
 import { createNestServer } from './server';
 
 const server = express();
@@ -15,3 +15,5 @@ createNestServer(server)
 export const api = functions
   .region('southamerica-east1')
   .https.onRequest(server);
+
+export * from './firebase/cache_triggers';
